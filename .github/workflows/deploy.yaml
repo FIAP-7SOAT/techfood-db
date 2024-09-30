@@ -13,6 +13,14 @@ jobs:
     name: "Terraform Deploy"
     runs-on: ubuntu-latest
 
+    env:
+      TF_VAR_aws_region: ${{ secrets.TF_VAR_AWS_REGION }}
+      TF_VAR_db_name: ${{ secrets.TF_VAR_DB_NAME }}
+      TF_VAR_db_username: ${{ secrets.TF_VAR_DB_USERNAME }}
+      TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
+      TF_VAR_db_subnet_ids: ${{ secrets.TF_VAR_DB_SUBNET_IDS }}
+      TF_VAR_vpc_security_group_ids: ${{ secrets.TF_VAR_VPC_SECURITY_GROUP_IDS }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -27,7 +35,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-1"
+          aws-region: "${{ secrets.AWS_REGION }}"
 
       - name: Terraform Init
         run: terraform init
